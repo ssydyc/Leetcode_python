@@ -1,0 +1,19 @@
+class Solution:
+    # @param dungeon, a list of lists of integers
+    # @return a integer
+    def calculateMinimumHP(self, dungeon):
+        m=len(dungeon)
+        if m==0: return 1
+        n=len(dungeon[0])
+        life=[[0 for i in range(n)] for j in range(m)]
+        life[m-1][n-1]=max(1,-dungeon[m-1][n-1]+1)
+        for row in range(m-1,-1,-1):
+            for col in range(n-1,-1,-1):
+                if row==m-1 and col==n-1: continue
+                elif row==m-1:
+                    life[row][col]=max(1,life[row][col+1]-dungeon[row][col])
+                elif col==n-1:
+                    life[row][col]=max(1,life[row+1][col]-dungeon[row][col])
+                else:
+                    life[row][col]=max(1,min(life[row+1][col]-dungeon[row][col],life[row][col+1]-dungeon[row][col]))
+        return life[0][0]
