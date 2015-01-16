@@ -1,0 +1,18 @@
+class Solution:
+    # @return a string
+    def convertToTitle(self, num):
+        rem=0
+        result=[]
+        while num>0:
+            rem=num%26
+            num=num/26
+            result.append(chr(rem+ord("A")-1))
+        result.reverse()
+        for i in range(len(result)-1,-1,-1):
+            if ord(result[i])<ord("A") and i!=0: # a strange character
+                result[i]=chr(ord("Z")+1-(ord("A")-ord(result[i])))
+                result[i-1]=chr(ord(result[i-1])-1)
+        for (i,temp) in enumerate(result):
+            if ord(temp)<ord("A"):
+                result[i]=""
+        return ''.join(result)
