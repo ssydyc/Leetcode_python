@@ -1,0 +1,14 @@
+class Solution:
+    # @param num, a list of integers
+    # @return an integer
+    def majorityElement(self, num):
+        num.sort()
+        compare=num[0]
+        maj=0
+        for temp in num:
+            if temp==compare: maj+=1
+            else:
+                if maj>len(num)/2: return compare
+                compare=temp
+                maj=1
+        return compare
