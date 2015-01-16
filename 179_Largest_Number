@@ -1,0 +1,16 @@
+class Solution:
+    # @param num, a list of integers
+    # @return a string
+    def compare(self,num1,num2):
+        if str(num1)+str(num2)>str(num2)+str(num1):
+            return 1
+        return 0
+    def largestNumber(self, num):
+        n=len(num)
+        for i in range(n):
+            for j in range(n-i-1):
+                if not self.compare(num[j],num[j+1]):
+                    num[j],num[j+1]=num[j+1],num[j]
+        for (i,temp) in enumerate(num):
+            num[i]=str(temp)
+        return str(int(''.join(num)))
