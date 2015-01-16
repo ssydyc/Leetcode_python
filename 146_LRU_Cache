@@ -1,0 +1,40 @@
+class LRUCache:
+
+    # @param capacity, an integer
+    def __init__(self, capacity):
+        self.age=0
+        self.age_key=[0]*capacity
+        self.hash_val={}
+        self.capacity=capacity
+        
+    # @return an integer
+    def get(self, key):
+        if key in self.hash_val:
+            self.age+=1
+            self.hash_val[key][1]=self.age
+            return self.hash_val[key][0]
+        else:
+            return -1
+
+    # @param key, an integer
+    # @param value, an integer
+    # @return nothing
+    def set(self, key, value):
+        self.age+=1
+        if key in self.hash_val:
+            self.hash_val[key][1]=self.age
+            self.hash_val[key][0]=value
+        else:
+            if len(self.hash_val)<self.capacity:
+                self.hash_val[key]=[value,self.age] # add a turple
+            else: # we need to replace one
+                min_key=0
+                min_val=float("Inf")
+                for temp in self.hash_val:
+                    if self.hash_val[temp][1]<min_val:
+                        min_key=temp
+                        min_val=self.hash_val[temp][1]
+                # min_key is the one to replace
+                del self.hash_val[min_key]
+                self.hash_val[key]=[value,self.age]
+            
