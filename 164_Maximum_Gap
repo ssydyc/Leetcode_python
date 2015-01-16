@@ -1,0 +1,28 @@
+class Solution:
+    # @param num, a list of integer
+    # @return an integer
+    def radixsort(self,num,div):
+        temp_digit=[]
+        temp_num=[0]*len(num)
+        for temp in num:
+            temp_digit.append(temp>>div & 1)
+        num_zero=len(num)-sum(temp_digit)
+        index1,index2= 0, num_zero
+        for i,temp in enumerate(temp_digit):
+            if temp:
+                temp_num[index2]=num[i]
+                index2+=1
+            else:
+                temp_num[index1]=num[i]
+                index1+=1
+        return temp_num
+        
+    def maximumGap(self, num):
+        if len(num)<2: return 0
+        for i in range(32):
+            num=self.radixsort(num,i)
+        result=[]
+        for i in range(1,len(num)):
+            result.append(num[i]-num[i-1])
+        return max(result)
+        
