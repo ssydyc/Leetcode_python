@@ -1,0 +1,55 @@
+class Solution:
+    # @return a string
+    
+    def fractionToDecimal(self, numerator, denominator):
+        if numerator==0: return "0"
+        sign=0 # no sign
+        if numerator<0:
+            numerator=-numerator
+            sign=sign+1
+        if denominator<0:
+            denominator=-denominator
+            sign=sign+1
+            
+        if numerator%denominator==0:
+            if sign==1:
+                return "-"+str(numerator/denominator) # result is integer
+            else:
+                return str(numerator/denominator)
+                
+        # now we handle with fractions
+        int_part=numerator/denominator # integer part first
+        numerator=numerator%denominator*10 # we are going to handle with decimal parts
+        dec_part=[]
+        num_have=[numerator]
+        while numerator<denominator: # add zeros
+            numerator*=10
+            dec_part.append("0")
+            num_have.append(numerator)
+            
+        while True:
+            if numerator%denominator==0: # without repetetion
+                dec_part.append(str(numerator/denominator))
+                if sign!=1:
+                    return str(int_part)+'.'+''.join(dec_part)
+                else:
+                    return '-'+str(int_part)+'.'+''.join(dec_part)
+            else:
+                dec_part.append(str(numerator/denominator))
+                numerator=numerator%denominator*10
+                if numerator in num_have: # we found the repetetion
+                    temp=num_have.index(numerator)
+                    dec_part.insert(temp,"(")
+                    dec_part.append(")")
+                    if sign!=1:
+                        return str(int_part)+'.'+''.join(dec_part)
+                    else:
+                        return '-'+str(int_part)+'.'+''.join(dec_part)
+                else:  # no repetetion, thus append numbers
+                    num_have.append(numerator)
+                    while numerator<denominator: # add zeros
+                        numerator*=10
+                        dec_part.append("0")
+                        num_have.append(numerator)
+                
+                    
